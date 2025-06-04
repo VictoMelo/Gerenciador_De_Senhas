@@ -120,7 +120,7 @@ Para configurar facilmente a Autenticação de Dois Fatores (2FA) com aplicativo
 
 1. **Clone o repositório:**
 ```sh
-git clone https://github.com/tatilimongi/Secure_Password_Manager.git
+git clone https https://github.com/VictoMelo/Gerenciador_De_Senhas.git
 cd Secure_Password_Manager
 ```
 
