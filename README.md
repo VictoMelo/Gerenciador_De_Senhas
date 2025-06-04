@@ -8,7 +8,6 @@
 [![Java](https://img.shields.io/badge/Java-22-blue.svg)](https://www.oracle.com/java/technologies/javase/22-relnote-issues.html)
 [![Build with Maven](https://img.shields.io/badge/Build-Maven-brightgreen.svg)](https://maven.apache.org/)
 ![Maven Central](https://img.shields.io/badge/Maven-dependencies-blue?logo=apachemaven)
-[![Dependencies](https://img.shields.io/librariesio/github/tatilimongi/Secure_Password_Manager)](https://libraries.io/github/tatilimongi/Secure_Password_Manager)
 
 <!-- ========== Funcionalidades ========== -->
 
@@ -21,28 +20,7 @@
 ![Project Status](https://img.shields.io/badge/status-active-brightgreen?style=flat)
 ![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-orange?style=flat)
 
-<!-- ========== GitHub Insights ========== -->
 
-[![Last Commit](https://img.shields.io/github/last-commit/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/commits/main)
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/graphs/commit-activity)
-[![Issues](https://img.shields.io/github/issues/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/pulls)
-
-<!-- ========== Qualidade e Segurança ========== -->
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1909c5e91ece446fbed19ae45659dae4)](https://app.codacy.com/gh/tatilimongi/Secure_Password_Manager/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![CodeQL Advanced](https://github.com/tatilimongi/Secure_Password_Manager/actions/workflows/codeql.yml/badge.svg)](https://github.com/tatilimongi/Secure_Password_Manager/actions/workflows/codeql.yml)
-<img alt="Dependabot enabled" src="https://img.shields.io/badge/Dependabot-enabled-brightgreen?logo=dependabot" />
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=bugs)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
 
 Um gerenciador de senhas seguro, de linha de comando, escrito em Java. Ele permite que você armazene, gere e gerencie suas credenciais com segurança, com criptografia robusta e recursos de segurança modernos.
 
