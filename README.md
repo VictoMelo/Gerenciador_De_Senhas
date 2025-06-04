@@ -38,7 +38,7 @@ Um gerenciador de senhas seguro, de linha de comando, escrito em Java. Ele permi
 - [Estrutura de Arquivos](#estrutura-de-arquivos)
 - [Contribuindo](#contribuindo)
 - [Licença](#licença)
-- [Aviso Legal](#aviso Legal)
+- [Aviso Legal](#aviso-Legal)
 
 ## Recursos
 
