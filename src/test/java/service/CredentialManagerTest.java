@@ -1,6 +1,6 @@
 package service;
 
-import model.Credential;
+import model.Credencial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,87 +12,87 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Unit tests for the {@link CredentialManager} class, focusing on manual list operations 
- * and the behavior of the constructor. This test suite ensures that credential-related 
- * functionality is implemented correctly.
- */
-@DisplayName("CredentialManager Unit Tests")
-class CredentialManagerTest {
+    /**
+    * Testes unitários para a classe {@link CredentialManager}, com foco em operações manuais de lista
+    * E no comportamento do construtor. Este conjunto de testes garante que a funcionalidade relacionada a credenciais
+    * Seja implementada corretamente.
+    */
+@DisplayName("GerenciadorCredential Unit Tests")
+class GerenciadorCredentialTest {
 
-    private List<Credential> credentials;
+    private List<Credencial> credenciais;
 
     /**
-     * Setup method to initialize a new list of credentials before each test execution. 
-     * This ensures a clean state for every individual test.
-     */
+    * Configura um método para inicializar uma nova lista de credenciais antes da execução de cada teste.
+    * Isso garante um estado limpo para cada teste individual.
+    */
     @BeforeEach
     void setUp() {
-        credentials = new ArrayList<>();
+        credenciais = new ArrayList<>();
     }
 
     /**
-     * Test to verify that a single {@link Credential} can be added to the list. 
-     * Confirms that the list size increases and the added credential is stored correctly.
-     */
+    * Teste para verificar se uma única {@link Credencial} pode ser adicionada à lista.
+    * Confirma se o tamanho da lista aumenta e se a credencial adicionada está armazenada corretamente.
+    */
     @Test
-    @DisplayName("Should add a credential to the list")
+    @DisplayName("Deveria adicionar uma credencial à lista")
     void testAddCredentialAddsToList() {
-        int initialSize = credentials.size();
-        Credential testCred = new Credential("TestService", "testUser", "encryptedPass");
-        credentials.add(testCred);
+        int tamanhoInicial = credenciais.size();
+        Credencial testCred = new Credencial("TestService", "testUser", "encryptedPass");
+        credenciais.add(testCred);
 
-        // Verifies the list size increases by one and the credential is properly added.
-        assertEquals(initialSize + 1, credentials.size(), "List size should increase by 1.");
-        assertEquals(testCred, credentials.getFirst(), "The added credential should be the first in the list.");
+        // Verifica se o tamanho da lista aumenta em um e se a credencial foi adicionada corretamente.
+        assertEquals(tamanhoInicial + 1, credenciais.size(), "O tamanho da lista deve aumentar em 1.");
+        assertEquals(testCred, credenciais.get(0), "A credencial adicionada deve ser a primeira da lista.");
     }
 
     /**
-     * Test to verify that a {@link Credential} can be removed from the list. 
-     * Confirms that the list size decreases and the list is empty after removal.
-     */
+    * Teste para verificar se uma {@link Credencial} pode ser removida da lista.
+    * Confirma que o tamanho da lista diminui e ela fica vazia após a remoção.
+    */
     @Test
-    @DisplayName("Should remove a credential from the list")
+    @DisplayName("Deveria remover uma credencial da lista")
     void testRemoveCredentialRemovesFromList() {
-        Credential testCred = new Credential("TestService", "testUser", "encryptedPass");
-        credentials.add(testCred);
-        int initialSize = credentials.size();
+        Credencial testCred = new Credencial("TestService", "testUser", "encryptedPass");
+        credenciais.add(testCred);
+        int tamanhoInicial = credenciais.size();
 
-        credentials.removeFirst(); // Removes the first credential.
+        credenciais.remove(0); // Remove a primeira credencial.
 
-        // Verifies the list size decreases by one and becomes empty.
-        assertEquals(initialSize - 1, credentials.size(), "List size should decrease by 1.");
-        assertTrue(credentials.isEmpty(), "List should be empty after removal.");
+        // Verifica se o tamanho da lista diminui em um e se torna vazia.
+        assertEquals(tamanhoInicial - 1, credenciais.size(), "O tamanho da lista deve diminuir em 1.");
+        assertTrue(credenciais.isEmpty(), "A lista deve estar vazia após a remoção.");
     }
 
     /**
-     * Test to verify that the {@link CredentialManager} is initialized with 
-     * an empty list when no arguments are passed to the constructor. Ensures that 
-     * the list is not null and is empty upon setup.
-     */
+    * Teste para verificar se o {@link GerenciadorCredential} é inicializado com
+    * uma lista vazia quando nenhum argumento é passado ao construtor. Garante que
+    * a lista não seja nula e esteja vazia na configuração.
+    */
     @Test
-    @DisplayName("Should initialize with an empty list")
+    @DisplayName("Deveria inicializar com uma lista vazia")
     void testConstructorInitializesWithEmptyList() {
-        // Ensures the list is properly initialized and starts as empty.
-        assertNotNull(credentials, "Credential list should not be null upon setup.");
-        assertTrue(credentials.isEmpty(), "Credential list should be empty upon setup.");
+        // Garante que a lista seja inicializada corretamente e comece vazia.
+        assertNotNull(credenciais, "A lista de credenciais não deve ser nula durante a configuração.");
+        assertTrue(credenciais.isEmpty(), "A lista de credenciais deve estar vazia durante a configuração.");
     }
 
     /**
-     * Test to verify that the {@link CredentialManager} constructor initializes with 
-     * a provided list containing credentials. Ensures the list from the constructor 
-     * is used correctly and maintains the provided state.
-     */
+    * Teste para verificar se o construtor {@link GerenciadorCredential} inicializa com
+    * uma lista fornecida contendo credenciais. Garante que a lista do construtor
+    * seja usada corretamente e mantenha o estado fornecido.
+    */
     @Test
-    @DisplayName("Should initialize with a provided list containing credentials")
+    @DisplayName("Deveria inicializar com uma lista fornecida contendo credenciais")
     void testConstructorInitializesWithProvidedList() {
-        List<Credential> testList = new ArrayList<>();
-        testList.add(new Credential("TestService", "testUser", "encryptedPass"));
+        List<Credencial> testList = new ArrayList<>();
+        testList.add(new Credencial("TestService", "testUser", "encryptedPass"));
 
-        CredentialManager newManager = new CredentialManager(testList);
+        GerenciadorCredential newManager = new GerenciadorCredential(testList);
 
-        // Ensures the constructor accepts and uses the provided list properly.
-        assertNotNull(newManager, "CredentialManager should be initialized.");
-        assertEquals(1, testList.size(), "Provided list should contain one credential.");
+       // Garante que o construtor aceite e use a lista fornecida corretamente.
+        assertNotNull(newManager, "GerenciadorCredential deve ser inicializado.");
+        assertEquals(1, testList.size(), "A lista fornecida deve conter uma credencial.");
     }
 }

@@ -6,42 +6,42 @@ import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for the PasswordBreachChecker utility class.
- * These tests aim to validate the behavior of the password security assessment functionality.
- */
-@DisplayName("Unit Tests for Password Breach Checker")
+* Testes unitários para a classe utilitária PasswordBreachChecker.
+* Esses testes visam validar o comportamento da funcionalidade de avaliação de segurança de senhas.
+*/
+@DisplayName("Testes Unitários para o Verificador de Violação de Senha")
 class PasswordBreachCheckerTest {
 
     /**
-     * Verifies that the system returns zero breaches for a strong password.
-     */
+    * Verifica se o sistema retorna zero violações para uma senha forte.
+    */
     @Test
-    @DisplayName("Should return zero for a strong password")
+    @DisplayName("Deve retornar zero para uma senha forte")
     void testCheckSafePassword() {
-        String strongPassword = "Str0ngP@ssw0rd2024!";
-        int result = PasswordBreachChecker.checkPassword(strongPassword);
-        assertTrue(result >= 0, "Result should be greater than or equal to zero");
+        String senhaForte = "Str0ngP@ssw0rd2024!";
+        int result = PasswordBreachChecker.checarSenha(senhaForte);
+        assertTrue(result >= 0, "O resultado deve ser maior ou igual a zero");
     }
 
     /**
-     * Verifies that a common, compromised password is detected.
-     */
+    * Verifica se uma senha comum e comprometida foi detectada.
+    */
     @Test
-    @DisplayName("Should detect compromised password")
+    @DisplayName("Deve detectar senha comprometida")
     void testCheckCompromisedPassword() {
-        String compromisedPassword = "123456";
-        int result = PasswordBreachChecker.checkPassword(compromisedPassword);
-        assertTrue(result > 0, "Common password should be detected as compromised");
+        String senhaComprometida = "123456";
+        int result = PasswordBreachChecker.checarSenha(senhaComprometida);
+        assertTrue(result > 0, "A senha comum deve ser detectada como comprometida");
     }
 
     /**
-     * Ensures the system handles an empty password gracefully and suggests a suitable result.
-     */
+    * Garante que o sistema trate uma senha vazia com elegância e sugere um resultado adequado.
+    */
     @Test
-    @DisplayName("Should handle empty password")
+    @DisplayName("Deve lidar com senha vazia")
     void testCheckEmptyPassword() {
-        String emptyPassword = "";
-        int result = PasswordBreachChecker.checkPassword(emptyPassword);
-        assertTrue(result >= -1, "Should return -1 or higher for an empty password");
+        String senhaVazia = "";
+        int result = PasswordBreachChecker.checarSenha(senhaVazia);
+        assertTrue(result >= -1, "Deve retornar -1 ou mais para uma senha vazia");
     }
 }

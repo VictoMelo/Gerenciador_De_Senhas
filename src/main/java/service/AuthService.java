@@ -10,69 +10,71 @@ import java.util.regex.Pattern;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * Handles user authentication with master password and TOTP verification.
- * It ensures secure access using hashed credentials and time-based codes.
- */
+* Gerencia a autenticação do usuário com senha mestra e verificação TOTP.
+* Garante acesso seguro usando credenciais com hash e códigos baseados em tempo.
+*/
 public class AuthService {
 
-    private static final String PASSWORD_FILE = "master_password.dat";
-    private static final int MAX_ATTEMPTS = 3;
-    private static final int MAX_PASSWORD_LENGTH = 64;
-    private static final int MAX_TOTP_LENGTH = 6;
-    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
+    private static final String ARQUIVO_DE_SENHA = "master_password.dat";
+    private static final int MAX_TENTATIVAS = 3;
+    private static final int MAX_SENHA_TAMANHO = 64;
+    private static final int MAX_TOTP_TAMANHO = 6;
+    private static final Pattern NUMERO_PADRAO = Pattern.compile("\\d+");
 
-    private final Scanner scanner;
+    private final Scanner input;
 
     /**
-     * Constructs the AuthService, initializing authentication with
-     * password and TOTP validation.
-     * Generates or loads a secure secret.
-     *
-     * @param scanner Scanner used for reading user input
-     * @throws Exception if authentication fails after the maximum number of attempts
-     */
-    public AuthService(Scanner scanner) throws Exception {
-        this.scanner = scanner;
-        String masterPasswordHash = loadOrCreatePassword();
-        String totpSecret = TOTPService.loadOrCreateSecret();
+     * Constrói o AuthService, inicializando a autenticação com
+     * validação de senha e TOTP.
+     * Gera ou carrega um segredo seguro.
+     * Scanner usado para ler a entrada do usuário
+     * se a autenticação falhar após o número máximo de tentativas
 
-        System.out.println("\nTwo-Factor Authentication (TOTP) is enabled.");
-        System.out.println("Use this secret in your authenticator app if not already registered:");
-        System.out.println(TOTPService.getBase32Secret(totpSecret));
-        System.out.println("Alternatively, scan a QR code using this URL:");
-        System.out.println(TOTPService.getOtpAuthUrl(totpSecret, "user@example.com", "SecurePasswordManager"));
+     * @param input 
+     * @throws Exception 
+     */
+    public AuthService(Scanner input) throws Exception {
+        this.input = input;
+        String senhaMestreHash = loadOrCreatePassword();
+        String segredoTotp = TOTPService.loadOrCreateSecret();
+
+        System.out.println("\nA autenticação de dois fatores está habilitada.");
+        System.out.println("Use este segredo em seu aplicativo autenticador, se ainda não estiver registrado:");
+        System.out.println(TOTPService.getBase32Secret(segredoTotp));
+        System.out.println("Como alternativa, escaneie um código QR usando este URL:");
+        System.out.println(TOTPService.getOtpAuthUrl(segredoTotp, "usuario@exemplo.com", "Gerenciador de Senhas Seguras"));
 
         String sessionPassword = null;
 
-        for (int attempts = 1; attempts <= MAX_ATTEMPTS; attempts++) {
+        for (int tentativas = 1; tentativas <= MAX_TENTATIVAS; tentativas++) {
             try {
-                System.out.print("\nEnter master password: ");
-                String inputPassword = InputSanitizer.sanitize(scanner.nextLine(), MAX_PASSWORD_LENGTH, false);
+                System.out.print("\nDigite a senha mestra: ");
+                String inputPassword = InputSanitizer.sanitize(input.nextLine(), MAX_SENHA_TAMANHO, false);
 
-                if (!BCrypt.checkpw(inputPassword, masterPasswordHash)) {
-                    System.out.println("Incorrect password.");
+                if (!BCrypt.checkpw(inputPassword, senhaMestreHash)) {
+                    System.out.println("Senha incorreta.");
                     continue;
                 }
 
-                System.out.print("Enter current TOTP code: ");
-                String inputCode = InputSanitizer.sanitize(scanner.nextLine(), MAX_TOTP_LENGTH, true);
+                System.out.print("Digite o código TOTP atual: ");
+                String inputCode = InputSanitizer.sanitize(input.nextLine(), MAX_TOTP_TAMANHO, true);
 
-                if (!NUMBER_PATTERN.matcher(inputCode).matches()) {
-                    throw new IllegalArgumentException("Only numbers are allowed for this field.");
+                if (!NUMERO_PADRAO.matcher(inputCode).matches()) {
+                    throw new IllegalArgumentException("Somente números são permitidos neste campo.");
                 }
 
-                if (TOTPService.validateCode(totpSecret, inputCode)) {
-                    System.out.println("Authentication successful.");
+                if (TOTPService.validateCode(segredoTotp, inputCode)) {
+                    System.out.println("Autenticação bem-sucedida.");
                     sessionPassword = inputPassword;
                     break;
                 }
             } catch (IllegalArgumentException ex) {
-                System.out.println("Invalid input. " + InputSanitizer.escapeForLog(ex.getMessage()));
+                System.out.println("Entrada inválida. " + InputSanitizer.escapeForLog(ex.getMessage()));
             }
         }
 
         if (sessionPassword == null) {
-            throw new Exception("Authentication failed after maximum attempts.");
+            throw new Exception(" Autenticação falhou após o número máximo de tentativas.");
         }
 
         String salt = EncryptionService.getOrCreatePersistentSalt();
@@ -80,62 +82,64 @@ public class AuthService {
     }
 
     /**
-     * Loads the existing master password hash or prompts the user to create a new one.
-     * Checks the password against known data breaches and enforces a minimum length.
-     *
-     * @return The hashed master password
-     * @throws Exception if reading or writing, the password file fails
+     * Carrega o hash da senha mestra existente ou solicita que o usuário crie uma nova.
+     * Verifica a senha em relação a violações de dados conhecidas e impõe um comprimento mínimo.
+     * A senha mestra com hash
+     * Se estiver lendo ou escrevendo, o arquivo de senha falha
+     
+     * @return 
+     * @throws Exception 
      */
     String loadOrCreatePassword() throws Exception {
-        Path path = Paths.get(PASSWORD_FILE);
+        Path path = Paths.get(ARQUIVO_DE_SENHA);
 
         if (Files.exists(path)) {
             return Files.readString(path).trim();
         }
 
-        System.out.println("No master password found. Please create one now.");
+        System.out.println("Nenhuma senha mestra encontrada. Crie uma agora.");
 
-        String newPassword;
+        String novaSenha;
 
         while (true) {
             try {
-                System.out.print("New password: ");
-                newPassword = InputSanitizer.sanitize(scanner.nextLine(), MAX_PASSWORD_LENGTH, false);
+                System.out.print("Nova senha: ");
+                novaSenha = InputSanitizer.sanitize(input.nextLine(), MAX_SENHA_TAMANHO, false);
 
-                int breachCount = PasswordBreachChecker.checkPassword(newPassword);
-                if (breachCount < 0) {
-                    System.out.println("Error checking the password against known breaches. Please try again.");
+                int count = PasswordBreachChecker.checarSenha(novaSenha);
+                if (count < 0) {
+                    System.out.println("Erro ao verificar a senha em busca de violações conhecidas. Tente novamente.");
                     continue;
-                } else if (breachCount > 0) {
+                } else if (count > 0) {
                     System.out.printf(
-                            "This password has appeared in %d breach(es). Please choose a stronger password.%n",
-                            breachCount
+                            "Esta senha apareceu em %d violações. Escolha uma senha mais forte.%n",
+                            count
                     );
                     continue;
                 }
 
-                if (newPassword.length() < 8) {
-                    System.out.println("Password must be at least 8 characters long. Please try again.");
+                if (novaSenha.length() < 8) {
+                    System.out.println("A senha deve ter pelo menos 8 caracteres. Tente novamente.");
                     continue;
                 }
 
-                System.out.print("Re-enter master password to confirm: ");
-                String inputPassword = InputSanitizer.sanitize(scanner.nextLine(), MAX_PASSWORD_LENGTH, false);
+                System.out.print("Digite novamente a senha mestra para confirmar: ");
+                String inputSenha = InputSanitizer.sanitize(input.nextLine(), MAX_SENHA_TAMANHO, false);
 
-                if (!newPassword.equals(inputPassword)) {
-                    System.out.println("Passwords do not match. Please try again.");
+                if (!novaSenha.equals(inputSenha)) {
+                    System.out.println("As senhas não coincidem. Tente novamente.");
                     continue;
                 }
 
                 break;
             } catch (IllegalArgumentException ex) {
-                System.out.println("Invalid input. " + InputSanitizer.escapeForLog(ex.getMessage()));
+                System.out.println("Entrada inválida. " + InputSanitizer.escapeForLog(ex.getMessage()));
             }
         }
 
-        String hash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        String hash = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
         Files.writeString(path, hash);
-        System.out.println("Master password saved.");
+        System.out.println("Senha mestra salva.");
         return hash;
     }
 }

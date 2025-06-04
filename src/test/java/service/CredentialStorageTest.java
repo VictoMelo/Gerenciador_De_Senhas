@@ -1,6 +1,6 @@
 package service;
 
-import model.Credential;
+import model.Credencial;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,18 +41,18 @@ class CredentialStorageTest {
     @Test
     @DisplayName("Should correctly save and load credentials")
     void testSaveAndLoadCredentials() throws Exception {
-        List<Credential> credentials = new ArrayList<>();
-        credentials.add(new Credential("service1", "user1", EncryptionService.encrypt("pass1")));
-        credentials.add(new Credential("service2", "user2", EncryptionService.encrypt("pass2")));
+        List<Credencial> credentials = new ArrayList<>();
+        credentials.add(new Credencial("service1", "user1", EncryptionService.encrypt("pass1")));
+        credentials.add(new Credencial("service2", "user2", EncryptionService.encrypt("pass2")));
 
-        CredentialStorage.saveCredentials(credentials);
+        CredencialStorage.saveCredenciais(credentials);
 
-        List<Credential> loadedCredentials = CredentialStorage.loadCredentials();
+        List<Credencial> loadedCredentials = CredencialStorage.carregaCredenciais();
 
         assertEquals(2, loadedCredentials.size());
-        assertEquals("service1", loadedCredentials.getFirst().serviceName());
-        assertEquals("user1", loadedCredentials.getFirst().username());
-        assertEquals("pass1", EncryptionService.decrypt(loadedCredentials.getFirst().encryptedPassword()));
+        assertEquals("service1", loadedCredentials.get(0).nomeServico());
+        assertEquals("user1", loadedCredentials.get(0).nomeUsuario());
+        assertEquals("pass1", EncryptionService.decrypt(loadedCredentials.get(0).senhaCriptografada()));
     }
 
     /**
@@ -63,7 +63,7 @@ class CredentialStorageTest {
     void testLoadCredentialsWhenFileDoesNotExist() throws Exception {
         Files.deleteIfExists(TEST_FILE_PATH);
 
-        List<Credential> loadedCredentials = CredentialStorage.loadCredentials();
+        List<Credencial> loadedCredentials = CredencialStorage.carregaCredenciais();
 
         assertNotNull(loadedCredentials, "Returned list should not be null");
         assertTrue(loadedCredentials.isEmpty(), "Returned list should be empty when file is missing");

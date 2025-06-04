@@ -11,52 +11,62 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 /**
- * EncryptionService provides secure encryption and decryption of sensitive data using AES-GCM.
- * The encryption key is derived from the user's master password and a persistent salt using PBKDF2.
- * The key and salt are only kept in memory for the session and cleared on JVM shutdown.
- * Usage:
- * - After authentication, call setSessionKeyAndSalt(masterPassword, salt) to initialize the session key.
- *   Note: `setSessionKeyAndSalt` must be called before encrypt() or decrypt() to avoid errors.
- * - Use encrypt() and decrypt() for secure data operations.
- * - The persistent salt is managed in encryption_salt.dat.
- * Security Notes:
- * - Keys and salts are cleared from memory at JVM shutdown via a shutdown hook.
- * - AES/GCM/NoPadding is used for encryption, ensuring authenticated encryption.
- */
+* O EncryptionService fornece criptografia e descriptografia seguras de dados confidenciais usando AES-GCM.
+
+* A chave de criptografia é derivada da senha mestra do usuário e de um salt persistente usando PBKDF2.
+
+* A chave e o salt são mantidos na memória apenas durante a sessão e limpos no desligamento da JVM.
+
+* - Após a autenticação, chame setSessionKeyAndSalt(masterPassword, salt) para inicializar a chave de sessão.
+
+* A  `setSessionKeyAndSalt` deve ser chamado antes de encrypt() ou decrypt() para evitar erros.
+
+* - Use encrypt() e decrypt() para operações de dados seguras.
+
+* - O salt persistente é gerenciado em encryption_salt.dat.
+
+* - Chaves e salts são limpos da memória no desligamento da JVM por meio de um hook de desligamento.
+
+* - AES/GCM/NoPadding é usado para criptografia, garantindo a criptografia autenticada.
+*/
 public class EncryptionService {
 
-	private static String sessionKey = null;
-	private static String sessionSalt = null;
+	private static String chaveDeSessao = null;
+	private static String sessaoSalt = null;
 
 	public static void setSessionKeyAndSalt(String key, String salt) {
-		sessionKey = key;
-		sessionSalt = salt;
+		chaveDeSessao = key;
+		sessaoSalt = salt;
 	}
 
 	private static SecretKey getSessionSecretKey() throws Exception {
-		if (sessionKey == null || sessionSalt == null) {
+		if (chaveDeSessao == null || sessaoSalt == null) {
 			throw new IllegalStateException("Session key and salt must be set before encryption/decryption.");
 		}
-		return getSecretKey(sessionKey, sessionSalt);
+		return getSecretKey(chaveDeSessao, sessaoSalt);
 	}
 
 	public static void clearSessionKeyAndSalt() {
-		sessionKey = null;
-		sessionSalt = null;
+		chaveDeSessao = null;
+		sessaoSalt = null;
 	}
 
-	// Call this method at JVM shutdown to clear sensitive data from memory
+	// Chame este método no desligamento da JVM para limpar dados confidenciais da memória
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(EncryptionService::clearSessionKeyAndSalt));
 	}
 
 	/**
-	 * Generates a SecretKey from a password and salt using PBKDF2 with HMAC SHA-256.
-	 *
-	 * @param password the password to derive the key from
-	 * @param salt     the salt bytes as string
-	 * @return a SecretKey suitable for AES encryption
-	 * @throws Exception if key generation fails
+	* Gera uma SecretKey a partir de uma senha e um salt usando PBKDF2 com HMAC SHA-256.
+	* a senha da qual derivar a chave
+	* os bytes do salt como string
+	* uma SecretKey adequada para criptografia AES
+	* se a geração da chave falhar
+	 
+	 * @param password 
+	 * @param salt     
+	 * @return 
+	 * @throws Exception 
 	 */
 	public static SecretKey getSecretKey(String password, String salt) throws Exception {
 		byte[] saltBytes = salt.getBytes();
@@ -67,17 +77,20 @@ public class EncryptionService {
 	}
 
 	/**
-	 * Encrypts a plaintext string using AES/CBC/PKCS5Padding.
-	 * A random IV is generated and prepended to the encrypted data.
-	 * The result is Base64 encoded.
-	 *
-	 * @param strToEncrypt plaintext string to encrypt
-	 * @return Base64 encoded string of IV + encrypted data
-	 * @throws Exception if encryption fails
+	* Criptografa uma string de texto simples usando AES/CBC/PKCS5Padding.
+	* Um IV aleatório é gerado e anexado aos dados criptografados.
+	* O resultado é codificado em Base64.
+	* String de texto simples a ser criptografada
+	* String codificada em Base64 de IV + dados criptografados
+	* se a criptografia falhar
+	 
+	 * @param strToEncrypt 
+	 * @return
+	 * @throws Exception 
 	 */
 	public static String encrypt(String strToEncrypt) throws Exception {
 		if (strToEncrypt == null) {
-			throw new NullPointerException("Input to encrypt cannot be null");
+			throw new NullPointerException("A entrada para criptografar não pode ser nula");
 		}
 		SecretKey key = getSessionSecretKey();
 		Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
@@ -94,16 +107,19 @@ public class EncryptionService {
 	}
 
 	/**
-	 * Decrypts a Base64 encoded string that contains a 16-byte IV prepended to the encrypted data.
-	 *
-	 * @param strToDecrypt Base64 encoded string containing IV + encrypted data
-	 * @return the decrypted plaintext string
-	 * @throws Exception if decryption fails
+	 * Descriptografa uma string codificada em Base64 que contém um IV de 16 bytes prefixado aos dados criptografados.
+	 * String codificada em Base64 contendo IV + dados criptografados
+	 * A string de texto plano descriptografada
+	 * Se a descriptografia falhar
+	 
+	 * @param strToDecrypt 
+	 * @return 
+	 * @throws Exception 
 	 */
-	public static String decrypt(String strToDecrypt) throws Exception {
+	public static String decrypt(Object strToDecrypt) throws Exception {
 		try {
 			SecretKey key = getSessionSecretKey();
-			byte[] encryptedIvTextBytes = Base64.getDecoder().decode(strToDecrypt);
+			byte[] encryptedIvTextBytes = Base64.getDecoder().decode((String) strToDecrypt);
 			if (encryptedIvTextBytes.length < 13) {
 				throw new IllegalArgumentException("Invalid encrypted input length");
 			}
@@ -121,13 +137,13 @@ public class EncryptionService {
 		}
 	}
 
-	// Utility to generate or load a persistent salt for PBKDF2
+	//Utilitário para gerar ou carregar um salt persistente para PBKDF2
 	public static String getOrCreatePersistentSalt() throws Exception {
 		java.nio.file.Path saltPath = java.nio.file.Paths.get("encryption_salt.dat"); // Alterado para .dat
 		if (java.nio.file.Files.exists(saltPath)) {
 			return java.nio.file.Files.readString(saltPath).trim();
 		}
-		// Generate a new random salt (16 bytes, base64 encoded)
+		// Gerar um novo sal aleatório (16 bytes, base64 encoded)
 		byte[] saltBytes = new byte[16];
 		new SecureRandom().nextBytes(saltBytes);
 		String salt = Base64.getEncoder().encodeToString(saltBytes);

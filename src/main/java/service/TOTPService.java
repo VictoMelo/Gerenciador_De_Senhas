@@ -13,13 +13,13 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 public class TOTPService {
-	private static final long TIME_STEP_SECONDS = 30;
-	private static final int CODE_DIGITS = 6;
-	private static final String HMAC_ALGORITHM = "HmacSHA1";
-	private static final String SECRET_FILE = "totp_secret.dat"; // Alterado para .dat
+	private static final long TEMPO_PASSO_SEGUNDOS = 30;
+	private static final int DIGITA_CODIGO = 6;
+	private static final String ALGORITMO_HMAC = "HmacSHA1";
+	private static final String ARQUIVO_SECRETO = "totp_secret.dat"; // Alterado para .dat
 
 	/**
-	 * Generates a new Base64-encoded secret key (internal use).
+	 * Gera uma nova chave secreta codificada em Base64 (uso interno).
 	 */
 	public static String generateSecret() {
 		byte[] randomBytes = new byte[20]; // 160 bits
@@ -28,7 +28,7 @@ public class TOTPService {
 	}
 
 	/**
-	 * Converts a Base64-encoded secret to Base32 format (Google Authenticator friendly).
+	 * Converte um segredo codificado em Base64 para o formato Base32 (compatível com Google Authenticator).
 	 */
 	public static String getBase32Secret(String base64Secret) {
 		Base32 base32 = new Base32();
@@ -37,12 +37,12 @@ public class TOTPService {
 	}
 
 	/**
-	 * Generates a URL to add the secret to Google Authenticator via QR code or manual entry.
+	 * Gera uma URL para adicionar o segredo ao Google Authenticator via QR code ou entrada manual.
 	 *
-	 * @param base64Secret The Base64-encoded secret.
-	 * @param accountName  The user account name (e.g., user@example.com).
-	 * @param issuer       The app or service name (e.g., SecurePasswordManager).
-	 * @return A full otpauth:// URL.
+	 * @param base64Secret O segredo codificado em Base64.
+	 * @param accountName  O nome da conta do usuário (ex: user@example.com).
+	 * @param issuer       O nome do aplicativo ou serviço (ex: SecurePasswordManager).
+	 * @return Uma URL completa otpauth://.
 	 */
 	public static String getOtpAuthUrl(String base64Secret, String accountName, String issuer) {
 		String base32Secret = getBase32Secret(base64Secret);
@@ -51,21 +51,21 @@ public class TOTPService {
 	}
 
 	/**
-	 * Validates a TOTP code entered by the user.
+	 * Valida um código TOTP digitado pelo usuário.
 	 */
 	public static boolean validateCode(String base64Secret, String inputCode) {
-	    if (inputCode == null || inputCode.length() != CODE_DIGITS) {
-	        System.out.println("Invalid TOTP code. Your code must contain " + CODE_DIGITS + " digits.");
+	    if (inputCode == null || inputCode.length() != DIGITA_CODIGO) {
+	        System.out.println("Invalid TOTP code. Your code must contain " + DIGITA_CODIGO + " digits.");
 	        return false;
 	    }
 
-	    if (!inputCode.matches("\\d{" + CODE_DIGITS + "}")) {
+	    if (!inputCode.matches("\\d{" + DIGITA_CODIGO + "}")) {
 	        System.out.println("Invalid TOTP code. TOTP code must only contain numeric digits");
 	        return false;
 	    }
 
 	    try {
-	        long currentWindow = Instant.now().getEpochSecond() / TIME_STEP_SECONDS;
+	        long currentWindow = Instant.now().getEpochSecond() / TEMPO_PASSO_SEGUNDOS;
 	        for (long offset = -1; offset <= 1; offset++) {
 	            String expectedCode = generateCodeAtTime(base64Secret, currentWindow + offset);
 	            if (expectedCode.equals(inputCode)) {
@@ -73,11 +73,11 @@ public class TOTPService {
 	            }
 	        }
 	    } catch (Exception e) {
-	        System.err.println("TOTP validation failed: " + e.getMessage());
+	        System.err.println("TOTP validação falhou: " + e.getMessage());
 	        return false;
 	    }
 
-	    System.out.println("Please try again.");
+	    System.out.println("Por favor, tente novamente.");
 	    return false;
 	}
 
@@ -89,8 +89,8 @@ public class TOTPService {
 			timeWindow >>= 8;
 		}
 
-		Mac mac = Mac.getInstance(HMAC_ALGORITHM);
-		mac.init(new SecretKeySpec(key, HMAC_ALGORITHM));
+		Mac mac = Mac.getInstance(ALGORITMO_HMAC);
+		mac.init(new SecretKeySpec(key, ALGORITMO_HMAC));
 		byte[] hmac = mac.doFinal(data);
 
 		int offset = hmac[hmac.length - 1] & 0xF;
@@ -99,17 +99,17 @@ public class TOTPService {
 				| ((hmac[offset + 2] & 0xFF) << 8)
 				| (hmac[offset + 3] & 0xFF);
 
-		int otp = binary % (int) Math.pow(10, CODE_DIGITS);
-		return String.format("%0" + CODE_DIGITS + "d", otp);
+		int otp = binary % (int) Math.pow(10, DIGITA_CODIGO);
+		return String.format("%0" + DIGITA_CODIGO + "d", otp);
 	}
 
 	/**
-	 * Loads the TOTP secret from a file or generates a new one and saves it.
+	 * Carrega o segredo TOTP de um arquivo ou gera um novo e salva.
 	 *
-	 * @return Base64-encoded secret string.
+	 * @return String secreta codificada em Base64.
 	 */
 	public static String loadOrCreateSecret() {
-		Path path = Paths.get(SECRET_FILE);
+		Path path = Paths.get(ARQUIVO_SECRETO);
 		if (Files.exists(path)) {
 			try {
 				String secret = Files.readString(path).trim();
@@ -117,7 +117,7 @@ public class TOTPService {
 					return secret;
 				}
 			} catch (IOException e) {
-				System.err.println("Failed to read secret file: " + e.getMessage());
+				System.err.println("Falha ao ler o arquivo secreto: " + e.getMessage());
 			}
 		}
 		// Generate a new secret and save it
@@ -125,7 +125,7 @@ public class TOTPService {
 		try {
 			Files.writeString(path, newSecret);
 		} catch (IOException e) {
-			System.err.println("Failed to write secret file: " + e.getMessage());
+			System.err.println("Falha ao gravar arquivo secreto: " + e.getMessage());
 		}
 		return newSecret;
 	}

@@ -1,8 +1,8 @@
 <div align="center">
 
-# Secure Password Manager
+# Gerenciador de senhas seguro
 
-<!-- ========== Project Info ========== -->
+<!-- ========== Informações do projeto ========== -->
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-22-blue.svg)](https://www.oracle.com/java/technologies/javase/22-relnote-issues.html)
@@ -10,13 +10,13 @@
 ![Maven Central](https://img.shields.io/badge/Maven-dependencies-blue?logo=apachemaven)
 [![Dependencies](https://img.shields.io/librariesio/github/tatilimongi/Secure_Password_Manager)](https://libraries.io/github/tatilimongi/Secure_Password_Manager)
 
-<!-- ========== Features ========== -->
+<!-- ========== Funcionalidades ========== -->
 
 ![2FA](https://img.shields.io/badge/2FA-TOTP-green?style=flat)
 ![AES Encryption](https://img.shields.io/badge/Encryption-AES256-blue?style=flat)
 ![Terminal App](https://img.shields.io/badge/Interface-Terminal-informational?style=flat)
 
-<!-- ========== Project Status ========== -->
+<!-- ========== Status do projeto ========== -->
 
 ![Project Status](https://img.shields.io/badge/status-active-brightgreen?style=flat)
 ![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-orange?style=flat)
@@ -28,7 +28,7 @@
 [![Issues](https://img.shields.io/github/issues/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/tatilimongi/Secure_Password_Manager.svg)](https://github.com/tatilimongi/Secure_Password_Manager/pulls)
 
-<!-- ========== Quality and Security ========== -->
+<!-- ========== Qualidade e Segurança ========== -->
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1909c5e91ece446fbed19ae45659dae4)](https://app.codacy.com/gh/tatilimongi/Secure_Password_Manager/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![CodeQL Advanced](https://github.com/tatilimongi/Secure_Password_Manager/actions/workflows/codeql.yml/badge.svg)](https://github.com/tatilimongi/Secure_Password_Manager/actions/workflows/codeql.yml)
@@ -44,147 +44,148 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tatilimongi_Secure_Password_Manager&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=tatilimongi_Secure_Password_Manager)
 
-A secure, command-line Password Manager written in Java. It allows you to safely store, generate, and manage your credentials with strong encryption and modern security features.
+Um gerenciador de senhas seguro, de linha de comando, escrito em Java. Ele permite que você armazene, gere e gerencie suas credenciais com segurança, com criptografia robusta e recursos de segurança modernos.
 
 </div>
 
-## Table of Contents
-- [Features](#features)
-- [Security Notes](#security-notes)
-- [Prerequisites](#prerequisites)
-- [Technologies Used](#technologies-used)
-- [TOTP QR Code Generation](#totp-qr-code-generation)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Running Tests](#running-tests)
-- [File Structure](#file-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Disclaimer](#disclaimer)
+## Índice
+- [Recursos](#recursos)
+- [Notas de Segurança](#notas-de-segurança)
+- [Pré-requisitos](#pré-requisitos)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Geração de Código QR TOTP](#geração-de-código-qr-totp)
+- [Instalação](#instalação)
+- [Uso](#uso)
+- [Executando Testes](#executando-testes)
+- [Estrutura de Arquivos](#estrutura-de-arquivos)
+- [Contribuindo](#contribuindo)
+- [Licença](#licença)
+- [Aviso Legal](#aviso Legal)
 
-## Features
+## Recursos
 
-- **Password Generation**: Option to automatically generate strong passwords with customizable length and character sets.
-  - **Password Breach Verification**: Generated passwords are checked against breach databases (like HaveIBeenPwned) to ensure they haven't been compromised.
-- **Password Security**:
-  - Encryption of stored passwords using industry-standard algorithms (AES-256).
-  - Integration with HaveIBeenPwned API to check for compromised passwords.
-  - Secure clipboard operations for password copying (clipboard is cleared after a short period).
-- **User-Friendly Interface**: Command-line interface with clear menu options for adding, retrieving, updating, and deleting credentials.
-- **Two-Factor Authentication (2FA)**: Support for TOTP (Time-based One-Time Password) for enhanced account security.
-- **Master Password**: Protects access to all stored credentials.
-- **Audit and Breach Check**: Easily check if your passwords have been exposed in known data breaches.
+- **Geração de Senhas**: Opção para gerar automaticamente senhas fortes com comprimento e conjuntos de caracteres personalizáveis.
 
-## Security Notes
+- **Verificação de Violação de Senha**: As senhas geradas são verificadas em bancos de dados de violações (como o HaveIBeenPwned) para garantir que não tenham sido comprometidas.
+- **Segurança de Senhas**:
+- Criptografia de senhas armazenadas usando algoritmos padrão do setor (AES-256).
+- Integração com a API HaveIBeenPwned para verificar senhas comprometidas.
+- Operações seguras da área de transferência para cópia de senhas (a área de transferência é limpa após um curto período).
+- **Interface Amigável**: Interface de linha de comando com opções de menu claras para adicionar, recuperar, atualizar e excluir credenciais.
+- **Autenticação de Dois Fatores (2FA)**: Suporte para TOTP (Senha de Uso Único Baseada em Tempo) para maior segurança da conta.
+- **Senha Mestra**: Protege o acesso a todas as credenciais armazenadas.
+- **Auditoria e Verificação de Violações**: Verifique facilmente se suas senhas foram expostas em violações de dados conhecidas.
 
-- **Advanced Encryption**: All stored credentials are secured using AES-GCM for authenticated encryption.
-- **Input Sanitization**: User-provided input is rigorously validated to prevent injection attacks or unsafe inputs.
-- **Sensitive Data Cleanup**: Mechanisms are in place to clear encryption keys and sensitive data from memory when the application shuts down.
-- The master password is never stored; only a hash is kept using BCrypt.
-- Clipboard operations are cleared after a short timeout to prevent leaks.
-- Passwords are never logged or displayed in plain text.
+## Notas de Segurança
 
-## Prerequisites
+- **Criptografia Avançada**: Todas as credenciais armazenadas são protegidas usando AES-GCM para criptografia autenticada.
+- **Saneamento de Entradas**: As entradas fornecidas pelo usuário são rigorosamente validadas para evitar ataques de injeção ou entradas inseguras.
+- **Limpeza de Dados Sensíveis**: Existem mecanismos para limpar chaves de criptografia e dados sensíveis da memória quando o aplicativo é encerrado.
+- A senha mestra nunca é armazenada; apenas um hash é mantido usando o BCrypt.
+- As operações da área de transferência são limpas após um curto tempo limite para evitar vazamentos.
+- As senhas nunca são registradas ou exibidas em texto simples.
 
-- Java Development Kit (JDK) 22 or higher
-- Maven 3.6.0 or higher
-- Git (optional, for version control)
+## Pré-requisitos
 
-## Technologies Used
+- Java Development Kit (JDK) 22 ou superior
+- Maven 3.6.0 ou superior
+- Git (opcional, para controle de versão)
 
-- **Java 22**: Core programming language
-- **Maven**: Project management and build tool
-- **Dependencies**:
-  - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/): For password hashing
-  - [Gson](https://github.com/google/gson): For JSON serialization
-  - [Apache Commons Codec](https://commons.apache.org/proper/commons-codec/): For encoding/decoding utilities
-  - [JUnit 5](https://junit.org/junit5/): For unit testing
+## Tecnologias Utilizadas
 
-## TOTP QR Code Generation
+- **Java 22**: Linguagem de programação principal
+- **Maven**: Ferramenta de gerenciamento e construção de projetos
+- **Dependências**:
+- [jBCrypt](https://www.mindrot.org/projects/jBCrypt/): Para hash de senhas
+- [Gson](https://github.com/google/gson): Para serialização JSON
+- [Apache Commons Codec](https://commons.apache.org/proper/commons-codec/): Para utilitários de codificação/decodificação
+- [JUnit 5](https://junit.org/junit5/): Para testes unitários
 
-To easily set up Two-Factor Authentication (2FA) with authenticator apps (like Google Authenticator, Microsoft Authenticator, or Authy), you can convert your TOTP URL into a QR code using one of the following free online tools:
+## Geração de Código QR TOTP
+
+Para configurar facilmente a Autenticação de Dois Fatores (2FA) com aplicativos autenticadores (como Google Authenticator, Microsoft Authenticator ou Authy), você pode converter sua URL TOTP em um código QR usando uma das seguintes ferramentas online gratuitas:
 
 - [https://www.qr-code-generator.com/](https://www.qr-code-generator.com/)
 - [https://www.the-qrcode-generator.com/](https://www.the-qrcode-generator.com/)
 - [https://www.qrstuff.com/](https://www.qrstuff.com/)
 - [https://www.unitag.io/qrcode](https://www.unitag.io/qrcode)
-- [https://www.google.com/chart?cht=qr&chs=300x300&chl=YOUR_TOTP_URL](https://www.google.com/chart?cht=qr&chs=300x300&chl=YOUR_TOTP_URL) (replace `YOUR_TOTP_URL` with your actual TOTP URL)
+- [https://www.google.com/chart?cht=qr&chs=300x300&chl=SUA_URL_TOTP](https://www.google.com/chart?cht=qr&chs=300x300&chl=SUA_URL_TOTP) (substitua `SUA_URL_TOTP` pela sua URL TOTP)
 
-**Instructions:**
-1. Copy your TOTP URL (e.g., `otpauth://totp/YourApp:username?secret=BASE32SECRET&issuer=YourApp`).
-2. Paste it into one of the QR code generator websites above.
-3. Scan the generated QR code with your authenticator app.
+**Instruções:**
+1. Copie a URL do seu TOTP (por exemplo, `otpauth://totp/YourApp:username?secret=BASE32SECRET&issuer=YourApp`).
+2. Cole-a em um dos sites geradores de QR code acima.
+3. Escaneie o QR code gerado com seu aplicativo autenticador.
 
-## Installation
+## Instalação
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/tatilimongi/Secure_Password_Manager.git
-   cd Secure_Password_Manager
-   ```
+1. **Clone o repositório:**
+```sh
+git clone https://github.com/tatilimongi/Secure_Password_Manager.git
+cd Secure_Password_Manager
+```
 
-2. **Build the project with Maven:**
-   ```sh
-   mvn clean package
-   ```
-   The executable JAR will be generated in the `target/` directory.
+2. **Compile o projeto com o Maven:**
+```sh
+mvn clean package
+```
+O JAR executável será gerado no diretório `target/`.
 
-## Usage
+## Uso
 
-1. **Run the application:**
-   ```sh
-   java -jar target/secure-password-manager-1.0-SNAPSHOT-jar-with-dependencies.jar
-   ```
+1. **Execute o aplicativo:**
+```sh
+java -jar target/secure-password-manager-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
-2. **First-time setup:**
-   - You will be prompted to create a master password. This password is required to access your credentials.
+2. **Primeira configuração:**
+- Você será solicitado a criar uma senha mestra. Essa senha é necessária para acessar suas credenciais.
 
-3. **Two-Factor Authentication (2FA):**
-   - Set up TOTP for an extra layer of security. Store your TOTP secret securely.
+3. **Autenticação de dois fatores (2FA):**
+- Configure o TOTP para uma camada extra de segurança. Armazene seu segredo TOTP com segurança.
 
-4. **Main menu options:**
-   - List all credentials
-   - Add new credential
-   - Delete a credential
-   - Copy password to clipboard
-   - Check if any password has been compromised
-   - Exit
+4. **Opções do menu principal:**
+- Listar todas as credenciais
+- Adicionar nova credencial
+- Excluir uma credencial
+- Copiar a senha para a área de transferência
+- Verificar se alguma senha foi comprometida
+- Sair
 
-5. **Password Generation:**
-   - Choose password length and character types (uppercase, lowercase, digits, symbols).
+5. **Geração de Senha:**
+- Escolha o comprimento da senha e os tipos de caracteres (maiúsculas, minúsculas, dígitos, símbolos).
 
-6. **Password Breach Check:**
-   - Enter a password to check if it has been exposed in known data breaches using the HaveIBeenPwned API.
+6. **Verificação de Violação de Senha:**
+- Insira uma senha para verificar se ela foi exposta em violações de dados conhecidas usando a API HaveIBeenPwned.
 
-## Security Notes
+## Observações de Segurança
 
-- All credentials are encrypted at rest using AES-256.
-- The master password is never stored; only a hash is kept using BCrypt.
-- Clipboard operations are cleared after a short timeout to prevent leaks.
-- Passwords are never logged or displayed in plain text.
+- Todas as credenciais são criptografadas em repouso usando AES-256.
+- A senha mestra nunca é armazenada; apenas um hash é mantido usando o BCrypt.
+- As operações da área de transferência são apagadas após um curto período de tempo para evitar vazamentos.
+- As senhas nunca são registradas ou exibidas em texto simples.
 
-## Running Tests
+## Executando Testes
 
-To run all unit tests:
+Para executar todos os testes unitários:
 ```sh
 mvn test
 ```
 
-## File Structure
+## Estrutura do Arquivo
 
-- `src/main/java/` - Application source code
-- `src/test/java/` - Unit tests
-- `lib/` - External libraries (if any)
-- `target/` - Compiled binaries and packaged JARs
+- `src/main/java/` - Código-fonte da aplicação
+- `src/test/java/` - Testes unitários
+- `lib/` - Bibliotecas externas (se houver)
+- `target/` - Binários compilados e JARs empacotados
 
-## Contributing
+## Contribuindo
 
-Contributions are welcome! Please fork the repository and submit a pull request. For major changes, open an issue first to discuss what you would like to change.
+Contribuições são bem-vindas! Por favor, faça um fork do repositório e envie um pull request. Para grandes mudanças, abra uma issue primeiro para discutir o que você gostaria de mudar.
 
-## License
+## Licença
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
 
-## Disclaimer
+## Aviso Legal
 
-This project is for educational purposes. Use at your own risk. Always back up your credentials and never share your master password.
+Este projeto é para fins educacionais. Use por sua conta e risco. Sempre faça backup de suas credenciais e nunca compartilhe sua senha mestra.

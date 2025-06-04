@@ -6,65 +6,65 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the {@link Credential} record.
+ * Unit tests for the {@link Credencial} record.
  * <p>
- * These tests validate the proper creation and usage of {@link Credential},
+ * These tests validate the proper creation and usage of {@link Credencial},
  * including its {@code toString()}, equality logic, and {@code hashCode} behavior.
  */
-@DisplayName("CredentialTest Suite") // Display the name for the test class
-class CredentialTest {
+@DisplayName("CredencialTest") // Display the name for the test class
+class CredencialTest {
 
     /**
-     * Tests the correct creation of a {@link Credential} object with valid field values.
+     * Tests the correct creation of a {@link Credencial} object with valid field values.
      */
     @Test
-    @DisplayName("Should create Credential with correct field values")
-    void testCredentialCreation() {
-        Credential credential = new Credential("Gmail", "user@example.com", "encryptedPass123");
+    @DisplayName("Deve criar Credencial com valores de campo corretos")
+    void testCredencialCreation() {
+        Credencial credenciais = new Credencial("Gmail", "user@example.com", "encryptedPass123");
 
-        assertNotNull(credential);
-        assertEquals("Gmail", credential.serviceName());
-        assertEquals("user@example.com", credential.username());
-        assertEquals("encryptedPass123", credential.encryptedPassword());
+        assertNotNull(credenciais);
+        assertEquals("Gmail", credenciais.nomeServico());
+        assertEquals("user@example.com", credenciais.nomeUsuario());
+        assertEquals("encryptedPass123", credenciais.senhaCriptografada());
     }
 
     /**
      * Verifies the {@code toString()} method returns a correctly formatted string representation.
      */
     @Test
-    @DisplayName("Should return expected string from toString()")
+    @DisplayName("Deve retornar a string esperada do toString()")
     void testToString() {
-        Credential credential = new Credential("Gmail", "user@example.com", "encryptedPass123");
-        String expected = "Service: Gmail, Username: user@example.com";
+        Credencial credenciais = new Credencial("Gmail", "user@example.com", "encryptedPass123");
+        String expected = "Serviço: Gmail, Nome de Usuário: user@example.com";
 
-        assertEquals(expected, credential.toString());
+        assertEquals(expected, credenciais.toString());
     }
 
     /**
-     * Validates equality between two {@link Credential} objects with the same fields
-     * and ensures objects with differing fields are not considered equal.
-     */
+    * Valida a igualdade entre dois objetos {@link Credencial} com os mesmos campos
+    * e garante que objetos com campos diferentes não sejam considerados iguais.
+    */
     @Test
-    @DisplayName("Should consider credentials equal when fields match")
+    @DisplayName("Deve considerar credenciais iguais quando os campos corresponderem")
     void testEquality() {
-        Credential credential1 = new Credential("Gmail", "user@example.com", "encryptedPass123");
-        Credential credential2 = new Credential("Gmail", "user@example.com", "encryptedPass123");
-        Credential differentCredential = new Credential("Outlook", "user@example.com", "encryptedPass123");
+        Credencial credencial1 = new Credencial("Gmail", "user@example.com", "encryptedPass123");
+        Credencial credencial2 = new Credencial("Gmail", "user@example.com", "encryptedPass123");
+        Credencial differentCredencial = new Credencial("Outlook", "user@example.com", "encryptedPass123");
 
-        assertEquals(credential1, credential2);
-        assertNotEquals(credential1, differentCredential);
+        assertEquals(credencial1, credencial2);
+        assertNotEquals(credencial1, differentCredencial);
     }
 
     /**
-     * Confirms that the {@code hashCode()} method produces consistent results for {@link Credential}
-     * objects with the same field values.
-     */
+    * Confirma que o método {@code hashCode()} produz resultados consistentes para objetos {@link Credencial}
+    * com os mesmos valores de campo.
+    */
     @Test
     @DisplayName("Should return same hashCode for equal credentials")
     void testHashCode() {
-        Credential credential1 = new Credential("Gmail", "user@example.com", "encryptedPass123");
-        Credential credential2 = new Credential("Gmail", "user@example.com", "encryptedPass123");
+        Credencial credencial1 = new Credencial("Gmail", "user@example.com", "encryptedPass123");
+        Credencial credencial2 = new Credencial("Gmail", "user@example.com", "encryptedPass123");
 
-        assertEquals(credential1.hashCode(), credential2.hashCode());
+        assertEquals(credencial1.hashCode(), credencial2.hashCode());
     }
 }
