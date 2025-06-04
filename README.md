@@ -99,7 +99,7 @@ Para configurar facilmente a Autenticação de Dois Fatores (2FA) com aplicativo
 1. **Clone o repositório:**
 ```sh
 git clone https https://github.com/VictoMelo/Gerenciador_De_Senhas.git
-cd Secure_Password_Manager
+cd Gerenciador_De_Senhas
 ```
 
 2. **Compile o projeto com o Maven:**
