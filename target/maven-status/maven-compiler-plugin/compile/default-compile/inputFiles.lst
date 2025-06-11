@@ -1,0 +1,10 @@
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\App.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\model\Credencial.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\AuthService.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\CredencialStorage.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\EncriptacaoService.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\GerenciadorCredential.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\TOTPService.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\service\VerificadorSenha.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\utils\InputSanitizer.java
+C:\Users\Victor\Desktop\atvSec\Secure_Password_Manager\src\main\java\utils\PasswordGenerator.java

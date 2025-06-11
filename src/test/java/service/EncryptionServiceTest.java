@@ -23,8 +23,8 @@ class EncryptionServiceTest {
     void testGetSecretKeyConsistency() throws Exception {
         String password = "testPassword";
         String salt = "testSalt123";
-        var key1 = EncryptionService.getSecretKey(password, salt);
-        var key2 = EncryptionService.getSecretKey(password, salt);
+        var key1 = EncriptacaoService.getSecretKey(password, salt);
+        var key2 = EncriptacaoService.getSecretKey(password, salt);
         assertEquals(new String(key1.getEncoded()), new String(key2.getEncoded()));
     }
 
@@ -38,12 +38,12 @@ class EncryptionServiceTest {
     void testEncryptDecrypt() throws Exception {
         String password = "masterPass";
         String salt = "uniqueSalt!";
-        EncryptionService.setSessionKeyAndSalt(password, salt);
+        EncriptacaoService.setSessionKeyAndSalt(password, salt);
         String original = "SensitiveData123!";
-        String encrypted = EncryptionService.encrypt(original);
-        String decrypted = EncryptionService.decrypt(encrypted);
+        String encrypted = EncriptacaoService.encrypt(original);
+        String decrypted = EncriptacaoService.decrypt(encrypted);
         assertEquals(original, decrypted);
-        EncryptionService.clearSessionKeyAndSalt();
+        EncriptacaoService.clearSessionKeyAndSalt();
     }
 
     /**
@@ -53,8 +53,8 @@ class EncryptionServiceTest {
     @Test
     @DisplayName("Should throw when encrypting without session key and salt")
     void testEncryptWithoutSessionKey() {
-        EncryptionService.clearSessionKeyAndSalt();
-        assertThrows(IllegalStateException.class, () -> EncryptionService.encrypt("data"));
+        EncriptacaoService.clearSessionKeyAndSalt();
+        assertThrows(IllegalStateException.class, () -> EncriptacaoService.encrypt("data"));
     }
 
     /**
@@ -67,11 +67,11 @@ class EncryptionServiceTest {
     void testDecryptWithWrongKey() throws Exception {
         String password = "rightPass";
         String salt = "rightSalt";
-        EncryptionService.setSessionKeyAndSalt(password, salt);
-        String encrypted = EncryptionService.encrypt("Secret");
-        EncryptionService.setSessionKeyAndSalt("wrongPass", salt);
-        assertThrows(Exception.class, () -> EncryptionService.decrypt(encrypted));
-        EncryptionService.clearSessionKeyAndSalt();
+        EncriptacaoService.setSessionKeyAndSalt(password, salt);
+        String encrypted = EncriptacaoService.encrypt("Secret");
+        EncriptacaoService.setSessionKeyAndSalt("wrongPass", salt);
+        assertThrows(Exception.class, () -> EncriptacaoService.decrypt(encrypted));
+        EncriptacaoService.clearSessionKeyAndSalt();
     }
 
     /**
@@ -82,8 +82,8 @@ class EncryptionServiceTest {
     @Test
     @DisplayName("Should generate and persist salt")
     void testGetOrCreatePersistentSalt() throws Exception {
-        String salt1 = EncryptionService.getOrCreatePersistentSalt();
-        String salt2 = EncryptionService.getOrCreatePersistentSalt();
+        String salt1 = EncriptacaoService.getOrCreatePersistentSalt();
+        String salt2 = EncriptacaoService.getOrCreatePersistentSalt();
         assertEquals(salt1, salt2);
         assertEquals(24, salt1.length()); // 16 bytes base64 = 24 chars
     }

@@ -1,6 +1,6 @@
 package utils;
 
-import service.PasswordBreachChecker;
+import service.VerificadorSenha;
 import java.security.SecureRandom;
 
 public class PasswordGenerator {
@@ -49,7 +49,7 @@ public class PasswordGenerator {
             senha = passwordBuilder.toString();
             
             // Verifique com o verificador de violação de senha
-            contador = PasswordBreachChecker.checarSenha(senha);
+            contador = VerificadorSenha.checarSenha(senha);
 
             if (contador > 0) {
                 System.out.printf("Senha gerada encontrada em %d violação(ões). Regenerando uma senha mais segura...%n", contador);

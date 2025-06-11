@@ -12,24 +12,16 @@ import java.util.Base64;
 
 /**
 * O EncryptionService fornece criptografia e descriptografia seguras de dados confidenciais usando AES-GCM.
-
 * A chave de criptografia é derivada da senha mestra do usuário e de um salt persistente usando PBKDF2.
-
 * A chave e o salt são mantidos na memória apenas durante a sessão e limpos no desligamento da JVM.
-
 * - Após a autenticação, chame setSessionKeyAndSalt(masterPassword, salt) para inicializar a chave de sessão.
-
 * A  `setSessionKeyAndSalt` deve ser chamado antes de encrypt() ou decrypt() para evitar erros.
-
 * - Use encrypt() e decrypt() para operações de dados seguras.
-
 * - O salt persistente é gerenciado em encryption_salt.dat.
-
 * - Chaves e salts são limpos da memória no desligamento da JVM por meio de um hook de desligamento.
-
 * - AES/GCM/NoPadding é usado para criptografia, garantindo a criptografia autenticada.
 */
-public class EncryptionService {
+public class EncriptacaoService {
 
 	private static String chaveDeSessao = null;
 	private static String sessaoSalt = null;
@@ -53,7 +45,7 @@ public class EncryptionService {
 
 	// Chame este método no desligamento da JVM para limpar dados confidenciais da memória
 	static {
-		Runtime.getRuntime().addShutdownHook(new Thread(EncryptionService::clearSessionKeyAndSalt));
+		Runtime.getRuntime().addShutdownHook(new Thread(EncriptacaoService::clearSessionKeyAndSalt));
 	}
 
 	/**

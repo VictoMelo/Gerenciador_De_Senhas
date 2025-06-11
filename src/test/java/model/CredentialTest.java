@@ -25,7 +25,7 @@ class CredencialTest {
         assertNotNull(credenciais);
         assertEquals("Gmail", credenciais.nomeServico());
         assertEquals("user@example.com", credenciais.nomeUsuario());
-        assertEquals("encryptedPass123", credenciais.senhaCriptografada());
+        assertEquals("encryptedPass123", credenciais.senhaEncriptada());
     }
 
     /**

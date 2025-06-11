@@ -8,12 +8,15 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.net.URI;
 
-public class PasswordBreachChecker {
+public class VerificadorSenha {
 
     /**
      * Verifica se uma senha foi encontrada em vazamentos de dados conhecidos usando a "Have I Been Pwned API".
-     * @param senha A senha a ser verificada.
-     * @return Número de vezes que a senha foi encontrada em vazamentos (0 = segura).
+     * A senha a ser verificada.
+     *  Número de vezes que a senha foi encontrada em vazamentos (0 = segura).
+     
+     * @param senha 
+     * @return
      */
     public static int checarSenha(String senha) {
         try {

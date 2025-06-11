@@ -55,12 +55,12 @@ public class TOTPService {
 	 */
 	public static boolean validateCode(String base64Secret, String inputCode) {
 	    if (inputCode == null || inputCode.length() != DIGITA_CODIGO) {
-	        System.out.println("Invalid TOTP code. Your code must contain " + DIGITA_CODIGO + " digits.");
+	        System.out.println("Código TOTP inválido. Seu código deve conter " + DIGITA_CODIGO + " dígitos.");
 	        return false;
 	    }
 
 	    if (!inputCode.matches("\\d{" + DIGITA_CODIGO + "}")) {
-	        System.out.println("Invalid TOTP code. TOTP code must only contain numeric digits");
+	        System.out.println("Código TOTP inválido. O código TOTP deve conter apenas dígitos numéricos.");
 	        return false;
 	    }
 

@@ -29,7 +29,7 @@ public class App {
         try {
             new AuthService(input);
         } catch (Exception e) {
-            System.err.println("Authentication failed: " + e.getMessage());
+            System.err.println("Autenticação falhou: " + e.getMessage());
             return;
         }
 
@@ -37,7 +37,7 @@ public class App {
         try {
             credenciais = CredencialStorage.carregaCredenciais();
         } catch (Exception e) {
-            System.err.println("Failed to load credentials: " + e.getMessage());
+            System.err.println("Falha ao carregar credenciais: " + e.getMessage());
             return;
         }
 
@@ -46,22 +46,25 @@ public class App {
     }
 
     /**
-     * Checks if a password hash suffix has been found in known data breaches
-     * using the Have I Been Pwned (HIBP) API.
-     * The API implements k-anonymity, and only the SHA-1 hash prefix
-     * is sent for checking.
-     *
-     * @param prefixo The first 5 characters of the SHA-1 hash of the password.
-     * @param sufixo The remaining characters of the SHA-1 hash of the password.
-     * @return {@code true} if the suffix was found in breaches; {@code false} otherwise.
-     * @throws Exception If validation or connection fails.
+    * Verifica se um sufixo de hash de senha foi encontrado em violações de dados conhecidas
+    * usando a API Have I Been Pwned (HIBP).
+    * A API implementa o k-anonimato e apenas o prefixo de hash SHA-1
+    * é enviado para verificação.
+    * Os primeiros 5 caracteres do hash SHA-1 da senha.
+    * Os caracteres restantes do hash SHA-1 da senha.
+    * Se a validação ou a conexão falhar.
+     
+     * @param prefixo 
+     * @param sufixo 
+     * @return {@code true} se o sufixo foi encontrado em violações; {@code false} de outra forma.
+     * @throws Exception 
      */
     static boolean checkPwned(String prefixo, String sufixo) throws Exception {
         try {
             prefixo = InputSanitizer.sanitize(prefixo, 5, false);
             sufixo = InputSanitizer.sanitize(sufixo, 100, false);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Input validation failed: " + e.getMessage());
+            throw new IllegalArgumentException("Falha na validação de entrada: " + e.getMessage());
         }
 
         HttpURLConnection conn = getHttpURLConnection(prefixo, sufixo);

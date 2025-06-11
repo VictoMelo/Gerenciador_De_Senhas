@@ -19,7 +19,7 @@ class PasswordBreachCheckerTest {
     @DisplayName("Deve retornar zero para uma senha forte")
     void testCheckSafePassword() {
         String senhaForte = "Str0ngP@ssw0rd2024!";
-        int result = PasswordBreachChecker.checarSenha(senhaForte);
+        int result = VerificadorSenha.checarSenha(senhaForte);
         assertTrue(result >= 0, "O resultado deve ser maior ou igual a zero");
     }
 
@@ -30,7 +30,7 @@ class PasswordBreachCheckerTest {
     @DisplayName("Deve detectar senha comprometida")
     void testCheckCompromisedPassword() {
         String senhaComprometida = "123456";
-        int result = PasswordBreachChecker.checarSenha(senhaComprometida);
+        int result = VerificadorSenha.checarSenha(senhaComprometida);
         assertTrue(result > 0, "A senha comum deve ser detectada como comprometida");
     }
 
@@ -41,7 +41,7 @@ class PasswordBreachCheckerTest {
     @DisplayName("Deve lidar com senha vazia")
     void testCheckEmptyPassword() {
         String senhaVazia = "";
-        int result = PasswordBreachChecker.checarSenha(senhaVazia);
+        int result = VerificadorSenha.checarSenha(senhaVazia);
         assertTrue(result >= -1, "Deve retornar -1 ou mais para uma senha vazia");
     }
 }

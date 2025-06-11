@@ -3,7 +3,7 @@ package model;
 /**
 * Representa uma credencial de usuário salva para um serviço específico.
 */
-public record Credencial(String nomeServico, String nomeUsuario, String encryptedPassword) {
+public record Credencial(String nomeServico, String nomeUsuario, String senhaEncriptada) {
 	/**
 	 * Constructs a new Credential.
 	 
@@ -12,9 +12,9 @@ public record Credencial(String nomeServico, String nomeUsuario, String encrypte
 	 * o nome de usuário associado ao serviço
 	 * senha, já criptografada
 	 
-	 * @param serviceName       
-	 * @param username          
-	 * @param encryptedPassword 
+	 * @param nomeServico       
+	 * @param nomeUsuario          
+	 * @param senhaEncriptada 
 	 */
 	public Credencial {
 	}
@@ -26,14 +26,8 @@ public record Credencial(String nomeServico, String nomeUsuario, String encrypte
 	}
 
 
-	public String senhaEncriptada() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'senhaEncriptada'");
-	}
 
 
-    public Object senhaCriptografada() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'senhaCriptografada'");
-    }
+
+
 }

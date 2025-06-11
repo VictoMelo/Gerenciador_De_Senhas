@@ -77,8 +77,8 @@ public class AuthService {
             throw new Exception(" Autenticação falhou após o número máximo de tentativas.");
         }
 
-        String salt = EncryptionService.getOrCreatePersistentSalt();
-        EncryptionService.setSessionKeyAndSalt(sessionPassword, salt);
+        String salt = EncriptacaoService.getOrCreatePersistentSalt();
+        EncriptacaoService.setSessionKeyAndSalt(sessionPassword, salt);
     }
 
     /**
@@ -106,7 +106,7 @@ public class AuthService {
                 System.out.print("Nova senha: ");
                 novaSenha = InputSanitizer.sanitize(input.nextLine(), MAX_SENHA_TAMANHO, false);
 
-                int count = PasswordBreachChecker.checarSenha(novaSenha);
+                int count = VerificadorSenha.checarSenha(novaSenha);
                 if (count < 0) {
                     System.out.println("Erro ao verificar a senha em busca de violações conhecidas. Tente novamente.");
                     continue;

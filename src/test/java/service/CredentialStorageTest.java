@@ -31,7 +31,7 @@ class CredentialStorageTest {
      */
     @BeforeEach
     void setUp() {
-        EncryptionService.setSessionKeyAndSalt("testMasterPassword", "testSalt123");
+        EncriptacaoService.setSessionKeyAndSalt("testMasterPassword", "testSalt123");
     }
 
     /**
@@ -42,8 +42,8 @@ class CredentialStorageTest {
     @DisplayName("Should correctly save and load credentials")
     void testSaveAndLoadCredentials() throws Exception {
         List<Credencial> credentials = new ArrayList<>();
-        credentials.add(new Credencial("service1", "user1", EncryptionService.encrypt("pass1")));
-        credentials.add(new Credencial("service2", "user2", EncryptionService.encrypt("pass2")));
+        credentials.add(new Credencial("service1", "user1", EncriptacaoService.encrypt("pass1")));
+        credentials.add(new Credencial("service2", "user2", EncriptacaoService.encrypt("pass2")));
 
         CredencialStorage.saveCredenciais(credentials);
 
@@ -52,7 +52,7 @@ class CredentialStorageTest {
         assertEquals(2, loadedCredentials.size());
         assertEquals("service1", loadedCredentials.get(0).nomeServico());
         assertEquals("user1", loadedCredentials.get(0).nomeUsuario());
-        assertEquals("pass1", EncryptionService.decrypt(loadedCredentials.get(0).senhaCriptografada()));
+        assertEquals("pass1", EncriptacaoService.decrypt(loadedCredentials.get(0).senhaEncriptada()));
     }
 
     /**
@@ -76,6 +76,6 @@ class CredentialStorageTest {
     void tearDown() throws Exception {
         Files.deleteIfExists(TEST_FILE_PATH);
         Files.deleteIfExists(BACKUP_FILE_PATH);
-        EncryptionService.clearSessionKeyAndSalt();
+        EncriptacaoService.clearSessionKeyAndSalt();
     }
 }

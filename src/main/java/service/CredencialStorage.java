@@ -21,9 +21,11 @@ public class CredencialStorage {
 
     /**
      * Salva uma lista de credenciais em um arquivo criptografado.
-     *
-     * @param credentials A lista de credenciais a ser salva.
-     * @throws Exception Se ocorrer um erro durante a criptografia ou gravação do arquivo.
+     * A lista de credenciais a ser salva.
+     * Se ocorrer um erro durante a criptografia ou gravação do arquivo.
+     * 
+     * @param credentials 
+     * @throws Exception 
      */
     public static void saveCredenciais(List<Credencial> credenciais) throws Exception {
         List<String> encryptedLines = new ArrayList<>();
@@ -40,7 +42,7 @@ public class CredencialStorage {
                 senhaEncriptada = InputSanitizer.sanitize(cred.senhaEncriptada(), 128, false);
 
                 String line = String.format("%s,%s,%s", nomeServico, nomeUsuario, senhaEncriptada);
-                encryptedLines.add(EncryptionService.encrypt(line));
+                encryptedLines.add(EncriptacaoService.encrypt(line));
             } catch (IllegalArgumentException e) {
                 System.err.println("Ignorando credencial inválida: " + e.getMessage());
             }
@@ -78,7 +80,7 @@ public class CredencialStorage {
             String line;
             while ((line = reader.readLine()) != null) {
                 try {
-                    String decrypted = EncryptionService.decrypt(line);
+                    String decrypted = EncriptacaoService.decrypt(line);
                     String[] parts = decrypted.split(",", 3);
 
                     if (parts.length == 3) {

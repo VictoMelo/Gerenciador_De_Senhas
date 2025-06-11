@@ -19,31 +19,33 @@ public class InputSanitizer {
      */
     public static String sanitize(String input, int maxLength, boolean numericOnly) throws IllegalArgumentException {
         if (input == null) {
-            throw new IllegalArgumentException("Input cannot be null.");
+            throw new IllegalArgumentException("A entrada não pode ser nula.");
         }
         input = input.trim();
         if (input.isEmpty() || input.length() > maxLength) {
-            throw new IllegalArgumentException("Input is invalid or exceeds allowed length.");
+            throw new IllegalArgumentException("A entrada é inválida ou excede o comprimento permitido.");
         }
         if (numericOnly && !input.matches("\\d+")) {
-            throw new IllegalArgumentException("Input must contain only numeric characters.");
+            throw new IllegalArgumentException("A entrada deve conter apenas caracteres numéricos.");
         }
-        if (!numericOnly && input.indexOf(';') >= 0 || 
-                    input.indexOf('\'') >= 0 ||
-                    input.indexOf('"') >= 0 ||
-                    input.indexOf('<') >= 0 ||
-                    input.indexOf('>') >= 0 ||
-                    input.indexOf(',') >= 0) {
-            throw new IllegalArgumentException("Input contains unsafe characters.");
+        if (!numericOnly && input.indexOf(';') >= 0 ||
+                input.indexOf('\'') >= 0 ||
+                input.indexOf('"') >= 0 ||
+                input.indexOf('<') >= 0 ||
+                input.indexOf('>') >= 0 ||
+                input.indexOf(',') >= 0) {
+            throw new IllegalArgumentException("A entrada contém caracteres inseguros.");
         }
         return input;
     }
 
     /**
-     * Escapes potentially unsafe input for safe logging.
-     *
-     * @param input The user-provided input.
-     * @return Input with unsafe characters escaped.
+    * Escapa entradas potencialmente inseguras para registro seguro.
+    * Entrada fornecida pelo usuário.
+    * Entrada com caracteres inseguros escapou.
+     
+     * @param input 
+     * @return 
      */
     public static String escapeForLog(String input) {
         if (input == null) {

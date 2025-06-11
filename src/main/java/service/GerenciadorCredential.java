@@ -22,8 +22,8 @@ public class GerenciadorCredential {
 
 	/**
 	 * Inicializa o gerenciador de credenciais com uma lista de credenciais.
-	 *
-	 * @param credenciais As credenciais a serem gerenciadas.
+	 * As credenciais a serem gerenciadas.
+	 * @param credenciais 
 	 */
 	public GerenciadorCredential(List<Credencial> credenciais) {
 		this.credenciais = credenciais;
@@ -40,22 +40,32 @@ public class GerenciadorCredential {
 			System.out.println("3. Delete a credencial");
 			System.out.println("4. Copie uma senha para o clipboard");
 			System.out.println("5. Verifique se alguma senha foi comprometida");
-			System.out.println("6. Exit");
+			System.out.println("6. Encerrar");
 			System.out.print("Escolha uma opção: ");
 			String option = input.nextLine();
 
 			// Opções do menu tratadas usando expressão switch
 			switch (option) {
-				case "1" -> listCredentials();
-				case "2" -> addCredential();
-				case "3" -> removeCredential();
-				case "4" -> copyPasswordToClipboard();
-				case "5" -> checkCompromisedPasswords();
-				case "6" -> {
+				case "1":
+					listCredentials();
+					break;
+				case "2":
+					addCredential();
+					break;
+				case "3":
+					removeCredential();
+					break;
+				case "4":
+					copyPasswordToClipboard();
+					break;
+				case "5":
+					checkCompromisedPasswords();
+					break;
+				case "6":
 					saveAndExit();
 					return;
-				}
-				default -> System.out.println("Opção inválida. Tente novamente.");
+				default:
+					System.out.println("Opção inválida. Tente novamente.");
 			}
 		}
 	}
@@ -133,8 +143,8 @@ public class GerenciadorCredential {
 
     // Criptografa a senha e armazena a nova credencial
     try {
-        String encryptedPassword = EncryptionService.encrypt(senha);
-        credenciais.add(new Credencial(service, username, encryptedPassword));
+        String senhaEncriptada = EncriptacaoService.encrypt(senha);
+        credenciais.add(new Credencial(service, username, senhaEncriptada));
         System.out.println("Credencial adicionada com sucesso.");
     } catch (Exception e) {
         System.err.println("Erro ao criptografar a senha: " + e.getMessage());
@@ -143,8 +153,8 @@ public class GerenciadorCredential {
 
 /**
  * Solicita ao usuário o comprimento da senha e valida a entrada.
- *
- * @return O comprimento da senha.
+ * O comprimento da senha.
+ * @return 
  */
 private int askPasswordLength() {
     int tamanho = 0;
@@ -165,9 +175,10 @@ private int askPasswordLength() {
 
 /**
  * Pergunta ao usuário se deve incluir um conjunto específico de caracteres na senha.
- *
- * @param message Mensagem a ser exibida ao usuário.
- * @return True se o usuário deseja incluir o conjunto de caracteres, senão false.
+ * Mensagem a ser exibida ao usuário.
+ * True se o usuário deseja incluir o conjunto de caracteres, senão false.
+ * @param message 
+ * @return 
  */
 private boolean askIncludeOption(String message) {
     while (true) {
@@ -238,7 +249,7 @@ private boolean askIncludeOption(String message) {
 
 			// Descriptografa e copia a senha
 			Credencial selected = credenciais.get(index);
-			String decrypted = EncryptionService.decrypt(selected.encryptedPassword());
+			String decrypted = EncriptacaoService.decrypt(selected.senhaEncriptada());
 			copyToClipboard(decrypted);
 			System.out.printf("Senha para %s copiada para a área de transferência.%n", selected.nomeServico());
 		} catch (IOException e) {
@@ -276,12 +287,12 @@ private boolean askIncludeOption(String message) {
 
 		for (Credencial c : credenciais) {
 			try {
-				String decrypted = EncryptionService.decrypt(c.senhaEncriptada());
-				int count = PasswordBreachChecker.checarSenha(decrypted);
-				if (count > 0) {
+				String decrypted = EncriptacaoService.decrypt(c.senhaEncriptada());
+				int contador = VerificadorSenha.checarSenha(decrypted);
+				if (contador > 0) {
 					System.out.printf(
-							"WARNING: Password for service '%s' (username: %s) was found %d times in breaches!%n",
-							c.nomeServico(), c.nomeUsuario(), count
+							"AVISO: A senha do serviço '%s' (nome de usuário: %s) foi encontrada %d vezes em vazamentos!%n",
+							c.nomeServico(), c.nomeUsuario(), contador
 					);
 					anyCompromised = true;
 				}
@@ -305,7 +316,9 @@ private boolean askIncludeOption(String message) {
 		} catch (Exception e) {
 			System.err.println("Erro ao salvar credenciais: " + e.getMessage());
 		}
+		
 	}
+	
 
 	/**
 	 * Lê e valida a entrada inteira do usuário.
@@ -320,4 +333,5 @@ private boolean askIncludeOption(String message) {
 			return -1;
 		}
 	}
+
 }
